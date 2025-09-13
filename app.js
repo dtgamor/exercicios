@@ -2,13 +2,14 @@ const express = require("express");
 const app = express();
 const PORT = 8081;
 
-app.get('/calculadora/', (req, res) => {
+app.get('/operacao/:tipo', (req, res) => {
     try {
 
-        const { operacao, numUm, numDois } = req.query;
+        const { numUm, numDois } = req.query;
+        const {tipo} = req.params;
         
         if (
-            isNaN(numUm) || isNaN(numDois) || operacao.includes(["soma", "subtracao", "multiplicacao", "divisao"])
+            isNaN(numUm) || isNaN(numDois) || tipo.includes(["soma", "subtracao", "multiplicacao", "divisao"])
         ) {
             return res.status(405).send("É obrigatório informar uma operação válida e dois números válidos");
         }
@@ -17,7 +18,7 @@ app.get('/calculadora/', (req, res) => {
         const numero2 = Number(numDois);
         let resultado;
 
-        switch (operacao) {
+        switch (tipo) {
             case "soma":
                 resultado = numero1 + numero2;
                 break;
