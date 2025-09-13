@@ -7,7 +7,6 @@ const PORT = 8080;
 app.get('/soma/:numUm/:numDois', (req, res) => {
     try {
         const { numUm, numDois } = req.params;
-
         const numero1 = Number(numUm);
         const numero2 = Number(numDois);
 
@@ -29,7 +28,6 @@ app.get('/soma/:numUm/:numDois', (req, res) => {
 app.get('/subtracao/:numUm/:numDois', (req, res) => {
     try {
         const { numUm, numDois } = req.params;
-
         const numero1 = Number(numUm);
         const numero2 = Number(numDois);
 
@@ -51,7 +49,6 @@ app.get('/subtracao/:numUm/:numDois', (req, res) => {
 app.get('/multiplicacao/:numUm/:numDois', (req, res) => {
     try {
         const { numUm, numDois } = req.params;
-
         const numero1 = Number(numUm);
         const numero2 = Number(numDois);
 
@@ -73,7 +70,6 @@ app.get('/multiplicacao/:numUm/:numDois', (req, res) => {
 app.get('/divisao/:numUm/:numDois', (req, res) => {
     try {
         const { numUm, numDois } = req.params;
-
         const numero1 = Number(numUm);
         const numero2 = Number(numDois);
 
