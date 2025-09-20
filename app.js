@@ -13,8 +13,9 @@ app.get("/usuarios", (req, res) => {
         const {nomeUsuario} = req.query;
 
         if (nomeUsuario) {
-            usuarios = usuarios.filter(usuarios => usuario.nome.toLowerCase().includes(nomeUsuario.toLowerCase()));
+            usuarios = usuarios.filter(usuario => usuario.nome.toLowerCase().includes(nomeUsuario.toLowerCase()));
         } 
+
 
         res.status(200).json(usuarios);
 
