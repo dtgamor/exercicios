@@ -1,89 +1,51 @@
 const express = require("express");
 const app = express();
 const PORT = 8080;
+const fs = require("fs");
 
+app.get("/produtos", (req, res) => {
 
-//SOMA
-app.get('/soma/:numUm/:numDois', (req, res) => {
     try {
-        const { numUm, numDois } = req.params;
 
-        if (isNaN(numUm) || isNaN(numDois)) {
-            return res.status(400).send(`É obrigatório informar dois números válidos.`);
+        const data = fs.readFileSync("produtos.json", "utf-8");
+        let produtos = JSON.parse(data); 
+    
+        const {nomeProduto} = req.query;
+        const {vlProduto, vlMin, vlMax} = req.query;
+
+        if (
+            (vlProduto && isNaN(Number(vlProduto))) ||
+            (vlMin && isNaN(Number(vlMin))) ||
+            (vlMax && isNaN(Number(vlMax)))
+        ) {
+            return res.status(400).json({ error: "Os parâmetros vlProduto, vlMin e vlMax devem ser valores numéricos." });
+        }
+  
+
+        if (vlMin) {
+            produtos = produtos.filter(produto => produto.preco >= vlMin);
         }
 
-        const numero1 = Number(numUm);
-        const numero2 = Number(numDois);
-        const resultado = numero1 + numero2;
-
-        res.status(200).send(`Resultado da soma é: ${resultado}`);
-
-    } catch (error) {
-        console.error("Erro ao executar a operação:", error);
-        res.status(500).send(`Erro interno`);
-    }
-});
-
-//SUBTRAÇÃO
-app.get('/subtracao/:numUm/:numDois', (req, res) => {
-    try {
-        const { numUm, numDois } = req.params;
-        if (isNaN(numUm) || isNaN(numDois) || (numDois) < 0) {
-            return res.status(400).send(`É obrigatório informar dois números válidos.`);
+        if (vlMax) {
+            produtos = produtos.filter(produto => produto.preco <= vlMax);
+        }
+        
+        if (vlProduto) {
+            produtos = produtos.filter(produto => produto.preco == vlProduto); 
         }
 
-        const numero1 = Number(numUm);
-        const numero2 = Number(numDois);
-        const resultado = numero1 - numero2;
+        if (nomeProduto) {
+            
+            produtos = produtos.filter(produto => produto.nome.toLowerCase().includes(nomeProduto.toLowerCase()));
+        } 
 
-        res.status(200).send(`Resultado da subtração é: ${resultado}`);
-
-    } catch (error) {
-        console.error("Erro ao executar a operação:", error);
-        res.status(500).send(`Erro interno`);
-    }
-});
-
-//MULTIPLICAÇÃO
-app.get('/multiplicacao/:numUm/:numDois', (req, res) => {
-    try {
-        const { numUm, numDois } = req.params;
-        if (isNaN(numUm) || isNaN(numDois)) {
-            return res.status(400).send(`É obrigatório informar dois números válidos.`);
-        }
-
-        const numero1 = Number(numUm);
-        const numero2 = Number(numDois);
-        const resultado = numero1 * numero2;
-
-        res.status(200).send(`Resultado da multiplicação é: ${resultado}`);
+        res.status(200).json(produtos);
 
     } catch (error) {
-        console.error("Erro ao executar a operação:", error);
-        res.status(500).send(`Erro interno`);
+        console.error("Erro ao ler o arquivo de produtos:", error);
+        res.status(500).json({ error: "Erro ao ler o arquivo de produtos." });
     }
 });
-
-//DIVISÃO
-app.get('/divisao/:numUm/:numDois', (req, res) => {
-    try {
-        const { numUm, numDois } = req.params;
-        if (isNaN(numUm) || isNaN(numDois)) {
-            return res.status(400).send(`É obrigatório informar dois números válidos.`);
-        }
-
-        const numero1 = Number(numUm);
-        const numero2 = Number(numDois);
-        const resultado = numero1 / numero2;
-
-        res.status(200).send(`Resultado da divisão é: ${resultado}`);
-
-    } catch (error) {
-        console.error("Erro ao executar a operação:", error);
-        res.status(500).send(`Erro interno`);
-    }
-});
-
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em: http://localhost:${PORT}`);
