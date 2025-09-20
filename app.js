@@ -3,25 +3,25 @@ const app = express();
 const PORT = 8080;
 const fs = require("fs");
 
-app.get("/usuarios", (req, res) => {
+app.get("/eventos", (req, res) => {
 
     try {
 
-        const data = fs.readFileSync("usuarios.json", "utf-8");
-        let usuarios = JSON.parse(data); 
+        const data = fs.readFileSync("eventos.json", "utf-8");
+        let eventos = JSON.parse(data); 
     
-        const {nomeUsuario} = req.query;
+        const {eventoData} = req.query;
 
-        if (nomeUsuario) {
-            usuarios = usuarios.filter(usuario => usuario.nome.toLowerCase().includes(nomeUsuario.toLowerCase()));
+        if (eventoData) {
+            eventos = eventos.filter(evento => evento.data == eventoData); 
         } 
 
 
-        res.status(200).json(usuarios);
+        res.status(200).json(eventos);
 
     } catch (error) {
-        console.error("Erro ao ler o arquivo de usuarios:", error);
-        res.status(500).json({ error: "Erro ao ler o arquivo de usuarios." });
+        console.error("Erro ao ler o arquivo de eventos:", error);
+        res.status(500).json({ error: "Erro ao ler o arquivo de eventos." });
     }
 });
 
