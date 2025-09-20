@@ -20,8 +20,8 @@ app.get("/usuarios", (req, res) => {
         res.status(200).json(usuarios);
 
     } catch (error) {
-        console.error("Erro ao ler o arquivo de produtos:", error);
-        res.status(500).json({ error: "Erro ao ler o arquivo de produtos." });
+        console.error("Erro ao ler o arquivo de usuarios:", error);
+        res.status(500).json({ error: "Erro ao ler o arquivo de usuarios." });
     }
 });
 
