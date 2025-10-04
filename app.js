@@ -1,90 +1,80 @@
 const express = require("express");
+const fs = require("fs");
+
 const app = express();
-const PORT = 8080;
+const PORT = 8081;
+const file = "./livros.json";
 
+app.use(express.json());
 
-//SOMA
-app.get('/soma/:numUm/:numDois', (req, res) => {
+if (!fs.existsSync(file)) {
+    fs.writeFileSync(file, '[]');
+}
+
+app.post("/cadastro-livro", (req, res) => {
     try {
-        const { numUm, numDois } = req.params;
-
-        if (isNaN(numUm) || isNaN(numDois)) {
-            return res.status(400).send(`É obrigatório informar dois números válidos.`);
+        const { titulo, autor, anoPublicacao, qtdExemplares } = req.body;
+        if (
+            typeof titulo !== 'string' || 
+            titulo.trim() === '' ||
+            typeof autor !== 'string' || 
+            autor.trim() === '' ||
+            isNaN(Number(anoPublicacao)) ||
+            isNaN(Number(qtdExemplares))
+        ) {
+            return res.status(400).json({ message: "Campos obrigatórios não preenchidos ou inválidos!" });
         }
 
-        const numero1 = Number(numUm);
-        const numero2 = Number(numDois);
-        const resultado = numero1 + numero2;
+        const data = fs.readFileSync(file, "utf-8");
+        let livros = JSON.parse(data);
 
-        res.status(200).send(`Resultado da soma é: ${resultado}`);
+
+        const maxId = livros.reduce((max, livro) => Math.max(max, livro.id), 0);
+
+        const novoLivro = {
+            id: maxId + 1,
+            titulo: titulo.trim(),
+            autor: autor.trim(),
+            anoPublicacao: Number(anoPublicacao),
+            qtdExemplares: Number(qtdExemplares)
+        };
+
+        livros.push(novoLivro);
+
+        fs.writeFileSync(file, JSON.stringify(livros, null, 4));
+
+        res.status(201).json({
+            message: `Livro "${titulo}" cadastrado com sucesso!`,
+            livro: novoLivro
+        });
 
     } catch (error) {
-        console.error("Erro ao executar a operação:", error);
-        res.status(500).send(`Erro interno`);
+        console.error(`Erro ao cadastrar livro: ${error}`);
+        res.status(500).json({ message: "Erro interno no servidor!" });
     }
 });
 
-//SUBTRAÇÃO
-app.get('/subtracao/:numUm/:numDois', (req, res) => {
+app.get("/catalogo", (req, res) => {
     try {
-        const { numUm, numDois } = req.params;
-        if (isNaN(numUm) || isNaN(numDois) || (numDois) < 0) {
-            return res.status(400).send(`É obrigatório informar dois números válidos.`);
+        const { titulo } = req.query;
+
+        const dados = fs.readFileSync(file, "utf-8");
+        let catalogoLivros = JSON.parse(dados);
+
+        if (titulo) {
+            catalogoLivros = catalogoLivros.filter(livro =>
+                livro.titulo.toLowerCase().includes(titulo.toLowerCase())
+            );
         }
 
-        const numero1 = Number(numUm);
-        const numero2 = Number(numDois);
-        const resultado = numero1 - numero2;
-
-        res.status(200).send(`Resultado da subtração é: ${resultado}`);
+        res.status(200).json(catalogoLivros);
 
     } catch (error) {
-        console.error("Erro ao executar a operação:", error);
-        res.status(500).send(`Erro interno`);
+        console.error(`Erro ao buscar livros: ${error}`);
+        res.status(500).json({ message: "Erro interno no servidor!" });
     }
 });
-
-//MULTIPLICAÇÃO
-app.get('/multiplicacao/:numUm/:numDois', (req, res) => {
-    try {
-        const { numUm, numDois } = req.params;
-        if (isNaN(numUm) || isNaN(numDois)) {
-            return res.status(400).send(`É obrigatório informar dois números válidos.`);
-        }
-
-        const numero1 = Number(numUm);
-        const numero2 = Number(numDois);
-        const resultado = numero1 * numero2;
-
-        res.status(200).send(`Resultado da multiplicação é: ${resultado}`);
-
-    } catch (error) {
-        console.error("Erro ao executar a operação:", error);
-        res.status(500).send(`Erro interno`);
-    }
-});
-
-//DIVISÃO
-app.get('/divisao/:numUm/:numDois', (req, res) => {
-    try {
-        const { numUm, numDois } = req.params;
-        if (isNaN(numUm) || isNaN(numDois)) {
-            return res.status(400).send(`É obrigatório informar dois números válidos.`);
-        }
-
-        const numero1 = Number(numUm);
-        const numero2 = Number(numDois);
-        const resultado = numero1 / numero2;
-
-        res.status(200).send(`Resultado da divisão é: ${resultado}`);
-
-    } catch (error) {
-        console.error("Erro ao executar a operação:", error);
-        res.status(500).send(`Erro interno`);
-    }
-});
-
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em: http://localhost:${PORT}`);
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

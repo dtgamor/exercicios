@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "titulo": "Dom Casmurro",
+        "autor": "Machado de Assis",
+        "anoPublicacao": 1899,
+        "qtdExemplares": 5
+    },
+    {
+        "id": 2,
+        "titulo": "testexpto",
+        "autor": "Machado de campinas",
+        "anoPublicacao": 1999,
+        "qtdExemplares": 50
+    }
+]
