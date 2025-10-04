@@ -20,3 +20,14 @@ async function getConnection() {
     }
     
 }
+
+// (async ()=>{
+//     try {
+//         const pool = await getConnection();
+//         console.log("Conexao estabelecida com sucesso");
+//     } catch (error) {
+//         console.error("Erro ao estabelecer conexão",error);
+//     }
+// })()
+
+module.exports = {sql,getConnection};
