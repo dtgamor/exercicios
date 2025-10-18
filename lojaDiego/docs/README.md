@@ -4,7 +4,11 @@
 #### GET /produtos
 - **Descrição**: Obtém uma lista de produtos
 - **Response**: Array de produtos
-
+```
+"nomeProduto": "produto1",
+"precoProduto": 10.00
+```
+- **Errors**
 ```
 {
 "message": "Erro ao buscar produtos."
