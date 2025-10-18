@@ -13,7 +13,7 @@ const produtoController ={
             res.status(200).json(produtos);
         }catch (error){
             console.error('Erro ao listar produtos:',error);
-            res.status(500).json({error: 'Erro ao buscar produtos.'});
+            res.status(400).json({error: 'Erro ao buscar produtos.'});
         }
     },
 
@@ -29,7 +29,7 @@ const produtoController ={
 
         } catch (error) {
             console.error('Erro ao cadastrar produto:', error);
-            res.status(500).json({erro: 'Erro ao cadastrar produto.'});
+            res.status(400).json({erro: 'Erro ao cadastrar produto.'});
         }
     }
 };

@@ -20,7 +20,7 @@ const clienteController ={
     cadastrarcliente: async (req, res)=>{
         try {
             const {nomeCliente, cpfCliente} = req.body;
-                if (nomeCliente == undefined || cpfCliente == undefined /*|| cpfCliente == */) {
+                if (nomeCliente == undefined || cpfCliente == undefined ) {
                     return res.status(400).json({erro: 'Campos obrigatórios não preenchidos!'});
                 }
 
@@ -34,7 +34,7 @@ const clienteController ={
 
             } catch (error) {
                 console.error('Erro ao cadastrar cliente:', error);
-                res.status(500).json({erro: 'Erro ao cadastrar cliente.'});
+                res.status(400).json({erro: 'Erro ao cadastrar cliente.'});
             }
     }
 };
