@@ -3,7 +3,7 @@ const CONFIG = {
     user: 'sa',
     password: '123456789',
     server: 'localhost',
-    database: 'LojaDB',
+    database: 'biblioteca',
     options:{
         encrypt: true,
         trustServerCertificate: true

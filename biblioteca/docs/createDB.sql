@@ -1,0 +1,35 @@
+CREATE DATABASE biblioteca;
+USE biblioteca;
+
+CREATE TABLE clientes(
+	idCliente UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+	nomeCliente VARCHAR (100) NOT NULL,
+	email VARCHAR (40) NOT NULL,
+	TELEFONE VARCHAR (11) NOT NULL
+);
+
+CREATE TABLE autores(
+	idAutor UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+	nomeAutor VARCHAR (100) NOT NULL,
+	nacionalidade VARCHAR (2) NOT NULL,
+	tipo VARCHAR (10)
+);
+
+CREATE TABLE livros (
+    idLivro UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    titulo VARCHAR(50) NOT NULL,
+    anoPublicacao DATE NOT NULL,
+    qtdLivros INT NOT NULL,
+    idAutor UNIQUEIDENTIFIER NOT NULL,
+    FOREIGN KEY (idAutor) REFERENCES autores(idAutor)
+);
+
+CREATE TABLE emprestimos (
+	idEmprestimo UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+	dataEmprestimo DATE NOT NULL,
+	dataDevolucao DATE NOT NULL,
+	idLivro UNIQUEIDENTIFIER NOT NULL,
+	idCliente UNIQUEIDENTIFIER NOT NULL,
+	FOREIGN KEY (idLivro) REFERENCES livros(idLivro),
+	FOREIGN KEY (idCliente) REFERENCES clientes(idCliente)
+)
