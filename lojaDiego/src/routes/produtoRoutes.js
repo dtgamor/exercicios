@@ -8,5 +8,6 @@ router.get('/produtos', produtoController.listarProdutos);
 router.post('/produtos', produtoController.criarProduto);
 router.get('/clientes', clienteController.listarclientes);
 router.post('/clientes', clienteController.cadastrarcliente);
+router.put('/produtos/:idProduto', produtoController.atualizarProduto);
 
 module.exports = {produtoRoutes: router};
