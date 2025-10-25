@@ -1,28 +1,40 @@
 ## API Reference
-### Produtos
+### Livros
 
-#### GET /produtos
-- **Descrição**: Obtém uma lista de produtos
-- **Response**: Array de produtos
+#### GET /livros
+- **Descrição**: Obtém uma lista de livros
+- **Response**: Array de livros
 
 ```
 {
-"message": "Erro ao buscar produtos."
+"message": "Erro ao buscar livros."
 }
 ```
-#### POST /produtos
-- **Descrição**: Cria um novo produto
+#### GET /livros?titulo=livro3
+- **Descrição**: Obtém dados de um livro específico Ex. Livro3
+- **Response**: Array com dados do livro solicitado
+
+```
+{
+"message": "Erro ao buscar livros."
+}
+```
+
+#### POST /livros
+- **Descrição**: Cadastra um novo livro
 - **Body**:
 ```
 {
-"nomeProduto": "produtoExemplo",
-"precoProduto": 0.00
+	"titulo": "livro4",
+	"anoPublicacao": "1900",
+	"qtdLivros": 10,
+	"idAutor": "23F60E01-F7C3-4303-935B-9803EB38EECC"
 }
 ```
 - **Response**:
 ```
 {
-"message": "Produto cadastrado com sucesso!"
+"message": "Livro cadastrado com sucesso!"
 }
 ```
 - **Errors**
@@ -32,46 +44,4 @@
 "message": "'Campos obrigatórios não preenchidos!"
 }
 ```
-```
-{
-"message": "Erro ao buscar produtos."
-}
-```
-### Clientes
-
-#### GET /clientes
-- **Descrição**: Obtém a lista de clientes
-- **Response**: Array de clientes ou erro
-#### POST /clientes
-- **Descrição**: Cadastra um novo cliente
-- **Body**:
-```
-{
-"nomeCliente": "Nome_Cliente",
-"cpfCliente": "xxx.xxx.xxx-xx"
-}
-```
-- **Response**:
-
-```
-{
-"message": "Cliente cadastrado com sucesso!"
-}
-```
-- **Errors**
-
-```
-{
-"message": "Campos obrigatórios não preenchidos!"
-}
-```
-```
-{
-"message": "Esse CPF já esta sendo utilizado!"
-}
-```
-```
-{
-"message": "Erro ao cadastrar cliente."
-}
 ```

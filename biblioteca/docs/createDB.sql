@@ -5,7 +5,7 @@ CREATE TABLE clientes(
 	idCliente UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
 	nomeCliente VARCHAR (100) NOT NULL,
 	email VARCHAR (40) NOT NULL,
-	TELEFONE VARCHAR (11) NOT NULL
+	telefone VARCHAR (11) NOT NULL
 );
 
 CREATE TABLE autores(
@@ -18,7 +18,7 @@ CREATE TABLE autores(
 CREATE TABLE livros (
     idLivro UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     titulo VARCHAR(50) NOT NULL,
-    anoPublicacao DATE NOT NULL,
+    anoPublicacao INT NOT NULL,
     qtdLivros INT NOT NULL,
     idAutor UNIQUEIDENTIFIER NOT NULL,
     FOREIGN KEY (idAutor) REFERENCES autores(idAutor)

@@ -22,7 +22,7 @@ const livrosModel = {
         try {
             const pool = await getConnection();
 
-            let querySQL = "SELECT * FROM livros WHERE titulo = @titulo;";
+            let querySQL = `SELECT * FROM livros WHERE titulo LIKE '%${titulo}%';`;
 
             const result = await pool.request()
                 .input("titulo", sql.VarChar(50), titulo)
