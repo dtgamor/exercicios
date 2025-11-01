@@ -53,6 +53,23 @@ const produtoController ={
             console.error('Erro ao atualizar produto:', error);
             res.status(500).json({erro: 'Erro interno no servidor ao atualizar produto.'});
         }
+    },
+    
+    deletarProduto: async (req, res) => {
+        try {
+            const {idProduto} = req.params;
+            if (idProduto.length !== 36) {
+                return res.status(400).json({erro: 'ID do produto inválido'});                
+            }
+            await produtoModel.deletarProduto(idProduto);
+            res.status(200).json({message: 'Produto deletado com sucesso!'});
+
+            
+        } catch (error) {
+            console.error('Erro ao deletar produto:', error);
+            res.status(500).json({erro: 'Erro interno no servidor ao deletar produto'});
+        }
+        
     }
 };
 
